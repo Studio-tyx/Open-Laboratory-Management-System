@@ -2,6 +2,9 @@ package edu.njust.service;
 
 import edu.njust.DAO.UserMapper;
 import edu.njust.entity.User;
+import edu.njust.utils.DBUtils;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 
 /**
  * @author TYX
@@ -20,7 +23,16 @@ public class LoginService {
      * @return
      */
     public boolean login(String userId, String password){
-        return false;
+        SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
+        SqlSession session=factory.openSession(true);
+        UserMapper mapper=session.getMapper(UserMapper.class);
+        String rightPassword=mapper.selectPasswordById(userId);
+        session.close();
+        if(password.equals(rightPassword)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
@@ -30,6 +42,11 @@ public class LoginService {
      * @return
      */
     public User getUser(String userId){
-        return null;
+        SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
+        SqlSession session=factory.openSession(true);
+        UserMapper mapper=session.getMapper(UserMapper.class);
+        User user=mapper.selectUserById(userId);
+        session.close();
+        return user;
     }
 }

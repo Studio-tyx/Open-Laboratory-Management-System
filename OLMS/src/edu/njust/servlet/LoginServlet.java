@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import edu.njust.entity.*;
 
 /**
  * @author TYX
@@ -26,7 +28,31 @@ public class LoginServlet extends HttpServlet {
      * 机房老师->labTeacherIndex.jsp
      */
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        //super.doPost(req, resp);
+        req.setCharacterEncoding("utf-8");
+        resp.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = resp.getWriter();
+        //业务逻辑
+        String userId=req.getParameter("userId");
+        String password=req.getParameter("password");
+        LoginService loginService=new LoginService();
+        boolean isLoginSuccess=loginService.login(userId,password);
+        if(isLoginSuccess){
+            User user=loginService.getUser(userId);
+            req.getSession().setAttribute("user",user);
+            switch (user.getUserType()){
+                case 1:req.getRequestDispatcher("/JSP/studentIndex.jsp").forward(req, resp);
+                break;
+                case 2:req.getRequestDispatcher("/JSP/expTeacherIndex.jsp").forward(req, resp);
+                break;
+                case 3:req.getRequestDispatcher("/JSP/labTeacherIndex.jsp").forward(req, resp);
+                break;
+                default:
+            }
+        }else{
+            req.getRequestDispatcher("/JSP/failure.jsp").forward(req, resp);
+        }
+
     }
 
 }
