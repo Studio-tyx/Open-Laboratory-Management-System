@@ -9,14 +9,14 @@ import java.sql.Date;
  **/
 public class RoomInfo {
     private String roomId;
-    private Date date;
+    private String date;
     private int time;
     private int freeCount;
 
     public RoomInfo() {
     }
 
-    public RoomInfo(String roomId, Date date, int time, int freeCount) {
+    public RoomInfo(String roomId, String date, int time, int freeCount) {
         this.roomId = roomId;
         this.date = date;
         this.time = time;
@@ -33,5 +33,29 @@ public class RoomInfo {
 
     public int getFreeCount() {
         return freeCount;
+    }
+
+    public String getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
 }

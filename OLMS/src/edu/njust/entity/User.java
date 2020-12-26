@@ -41,4 +41,20 @@ public class User {
     public int getUserType() {
         return userType;
     }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setUserType(int userType) {
+        this.userType = userType;
+    }
 }
