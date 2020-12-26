@@ -11,8 +11,6 @@ import edu.njust.utils.DBUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
-import java.util.List;
-
 /**
  * @author TYX
  * @name RegisterExp
@@ -85,31 +83,12 @@ public class ExperimentService {
     }
 
     //基础方法:根据4个key取StudentExperiment
-    public StudentExperiment getStudentExperiment(String stuId, String expName, String expTeacherName, String expTerm){
+    public StudentExperiment getStudentExperiment(String stuId,String expName,String expTeacherName,String expTerm){
         SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
         SqlSession session=factory.openSession(true);
         StudentExpMapper studentExpMapper=session.getMapper(StudentExpMapper.class);
         StudentExperiment studentExperiment=studentExpMapper.selectStudentExp(stuId,expName,expTeacherName,expTerm);
         session.close();
         return studentExperiment;
-    }
-
-    //根据stuId获得所有StudentExperiment
-    public List<StudentExperiment> getStudentExperimentsByStuId(String stuId){
-        SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
-        SqlSession session=factory.openSession(true);
-        StudentExpMapper studentExpMapper=session.getMapper(StudentExpMapper.class);
-        List<StudentExperiment> results=studentExpMapper.selectStudentExpsByStuId(stuId);
-        session.close();
-        return results;
-    }
-    //
-    public List<StudentExperiment> getStudentExperimentsByExpTeacherName(String expTeacherName){
-        SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
-        SqlSession session=factory.openSession(true);
-        StudentExpMapper studentExpMapper=session.getMapper(StudentExpMapper.class);
-        List<StudentExperiment> results=studentExpMapper.selectStudentExpsByExpTeacherName(expTeacherName);
-        session.close();
-        return results;
     }
 }

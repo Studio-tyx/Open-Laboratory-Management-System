@@ -24,7 +24,7 @@ public class LoginService {
      */
     //用户登录系统
     //已测试
-    public static boolean login(String userId, String password){
+    public boolean login(String userId, String password){
         SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
         SqlSession session=factory.openSession(true);
         UserMapper mapper=session.getMapper(UserMapper.class);

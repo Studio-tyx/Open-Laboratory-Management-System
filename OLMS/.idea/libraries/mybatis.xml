@@ -1,10 +1,10 @@
 <component name="libraryTable">
   <library name="mybatis">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../../Program Files (x86)/SSM/core/commons-logging-1.2.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../../Program Files (x86)/SSM/core/log4j-1.2.16.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../../Program Files (x86)/SSM/core/mybatis-3.5.5.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../../Program Files (x86)/SSM/core/mysql-connector-java-8.0.16.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../Program Files (x86)/SSM/core/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../Program Files (x86)/SSM/core/log4j-1.2.16.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../Program Files (x86)/SSM/core/mybatis-3.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../Program Files (x86)/SSM/core/mysql-connector-java-8.0.16.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

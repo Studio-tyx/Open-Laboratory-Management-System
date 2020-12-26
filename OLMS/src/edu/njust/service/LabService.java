@@ -52,6 +52,7 @@ public class LabService {
         roomInfoMapper.modifyFreeSeatCount(roomInfo);
         session.close();
         return true;
+
     }
 
     //机房老师删除今天以前的机房信息

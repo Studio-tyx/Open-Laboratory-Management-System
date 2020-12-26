@@ -4,7 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="edu.njust.DAO.UserMapper">
-
+    <resultMap id="UserMap" type="edu.njust.entity.User">
+        <id column="userId" property="userId"/>
+        <result column="password" property="password"/>
+        <result column="userName" property="userName"/>
+        <result column="userType" property="userType"/>
+    </resultMap>
     <select id="selectPasswordById" parameterType="string" resultType="string" >
 		select password from user where userId = #{userId}
 	</select>

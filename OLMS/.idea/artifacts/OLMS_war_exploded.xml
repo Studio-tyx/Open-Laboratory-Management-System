@@ -7,11 +7,6 @@
         <element id="directory" name="classes">
           <element id="module-output" name="OLMS" />
         </element>
-        <element id="directory" name="lib">
-          <element id="library" level="project" name="fileupload" />
-          <element id="library" level="project" name="Java EE 6-Java EE 6" />
-          <element id="library" level="project" name="mybatis" />
-        </element>
       </element>
     </root>
   </artifact>

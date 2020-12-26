@@ -18,10 +18,4 @@
         select * from studentExperiment
         where stuId=#{arg0} and expName=#{arg1} and expTeacherName=#{arg2} and expTerm=#{arg3}
     </select>
-    <select id="selectStudentExpsByStuId" resultType="studentExperiment">
-        select * from studentExperiment where stuId=#{0}
-    </select>
-    <select id="selectStudentExpsByExpTeacherName" resultType="studentExperiment">
-        select * from studentExperiment where expTeacherName=#{0}
-    </select>
 </mapper>

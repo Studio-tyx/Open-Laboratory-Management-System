@@ -19,8 +19,5 @@
 	
  	<mappers>
  	<mapper class="edu.njust.DAO.UserMapper"/>
-	<mapper class="edu.njust.DAO.ExpInfoMapper"/>
-	<mapper class="edu.njust.DAO.RoomInfoMapper"/>
-	<mapper class="edu.njust.DAO.StudentExpMapper"/>
  	</mappers>
 </configuration>
