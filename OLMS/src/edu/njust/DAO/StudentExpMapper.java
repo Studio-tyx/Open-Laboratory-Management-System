@@ -2,6 +2,8 @@ package edu.njust.DAO;
 
 import edu.njust.entity.StudentExperiment;
 
+import java.util.List;
+
 public interface StudentExpMapper {
     int insertStudentExp(StudentExperiment studentExperiment);
 
@@ -10,4 +12,8 @@ public interface StudentExpMapper {
 
     //查询报告
     StudentExperiment selectStudentExp(String stuId,String expName,String expTeacherName,String expTerm);
+    //查询某一学生所有的实验信息
+    List<StudentExperiment> selectStudentExpsByStuId(String stuId);
+    //查询某一老师所有的实验信息
+    List<StudentExperiment> selectStudentExpsByExpTeacherName(String expTeacherName);
 }

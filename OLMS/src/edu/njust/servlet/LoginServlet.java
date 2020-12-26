@@ -37,9 +37,11 @@ public class LoginServlet extends HttpServlet {
         String password=req.getParameter("password");
         LoginService loginService=new LoginService();
         boolean isLoginSuccess=loginService.login(userId,password);
+        System.out.println("helloworld");
         if(isLoginSuccess){
             User user=loginService.getUser(userId);
             req.getSession().setAttribute("user",user);
+            System.out.println(user.getUserType());
             switch (user.getUserType()){
                 case 1:req.getRequestDispatcher("/JSP/studentIndex.jsp").forward(req, resp);
                 break;
@@ -54,5 +56,4 @@ public class LoginServlet extends HttpServlet {
         }
 
     }
-
 }

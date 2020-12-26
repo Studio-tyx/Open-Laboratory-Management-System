@@ -42,16 +42,19 @@ public class test {
         //debug(user.show());
         //StudentExpMapper mapper=session.getMapper(StudentExpMapper.class);
         //debug(mapper.selectStudentExp("918106840236","软件建模","刘冬梅","大三上学期").show());
-        StudentExperiment studentExperiment=new StudentExperiment("918106840242","软件建模","大三上学期","刘冬梅");
-        studentExperiment.setRoomId("1010");
-        studentExperiment.setDate("2020-12-26");
-        studentExperiment.setTime(1);
+//        StudentExperiment studentExperiment=new StudentExperiment("918106840242","软件建模","大三上学期","刘冬梅");
+//        studentExperiment.setRoomId("1010");
+//        studentExperiment.setDate("2020-12-26");
+//        studentExperiment.setTime(1);
         ExperimentService experimentService=new ExperimentService();
         //debug(experimentService.chooseExp(studentExperiment));
-        LabService labService=new LabService();
+//        LabService labService=new LabService();
         //labService.deleteBeforeRoomInfo();
         //experimentService.admitExp(studentExperiment);
-        labService.chooseLab(studentExperiment);
+        List<StudentExperiment>results=
+                experimentService.getStudentExperimentsByExpTeacherName("刘冬梅");
+        debug(results.get(0).show());
+        debug(results.get(1).show());
     }
 
     public static void debug(Object o){
