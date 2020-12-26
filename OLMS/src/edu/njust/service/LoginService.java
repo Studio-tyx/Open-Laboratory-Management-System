@@ -22,6 +22,8 @@ public class LoginService {
      * @param password
      * @return
      */
+    //用户登录系统
+    //已测试
     public boolean login(String userId, String password){
         SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
         SqlSession session=factory.openSession(true);
@@ -41,6 +43,8 @@ public class LoginService {
      * @param userId
      * @return
      */
+    //获得用户user
+    //已测试
     public User getUser(String userId){
         SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
         SqlSession session=factory.openSession(true);

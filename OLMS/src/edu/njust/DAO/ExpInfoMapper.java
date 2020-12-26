@@ -3,12 +3,10 @@ package edu.njust.DAO;
 import edu.njust.entity.ExperimentInfo;
 
 public interface ExpInfoMapper {
-    /**
-     * insertExperiment
-     * @param experiment
-     * @return
-     *
-     * 新增实验信息
-     */
-    int insertExperiment(ExperimentInfo experiment);
+
+    int insertExperimentInfo(ExperimentInfo experimentInfo);
+
+    int modifyExperimentInfo(ExperimentInfo experimentInfo);
+
+    ExperimentInfo selectExperimentInfo(String expName,String expTeacherName,String expTerm);
 }

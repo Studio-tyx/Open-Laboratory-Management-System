@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.njust.DAO.ExpInfoMapper">
+    <insert id="insertExperimentInfo" parameterType="experimentInfo">
+		insert into experimentInfo values(#{expName},#{expTeacherName},#{expTerm},#{expIntroduction},
+		#{expMaxStudentCount},#{currentStudentCount})
+	</insert>
+	<update id="modifyExperimentInfo" parameterType="experimentInfo">
+		update experimentInfo set expIntroduction=#{expIntroduction},expMaxStudentCount=#{expMaxStudentCount},
+		currentStudentCount=#{currentStudentCount} where expName=#{expName} and expTeacherName=#{expTeacherName} and expTerm=#{expTerm}
+	</update>
+	<select id="selectExperimentInfo" parameterType="String" resultType="experimentInfo">
+		select * from experimentInfo where expName=#{arg0} and expTeacherName=#{arg1} and expTerm=#{arg2}
+	</select>
+</mapper>
