@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="OLMS:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>OLMS</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="OLMS-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="OLMS:war exploded" />
+    </root>
+  </artifact>
+</component>
