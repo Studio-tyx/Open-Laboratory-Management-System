@@ -9,22 +9,29 @@
   与StudentExpServlet.doGet()相连
 --%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page import="edu.njust.entity.ExperimentInfo" %>
+<%@ page import="edu.njust.service.ExperimentService" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="edu.njust.entity.User" %>
+<%@ page import="edu.njust.entity.StudentExperiment" %>
 <%
     String path = request.getContextPath();
-    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+    String basePath = request.getScheme()+"://" +request.getServerName()+":" +request.getServerPort()+path+"/";
 %>
 
+<base href="<%=basePath%>">
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8">
     <title>报名实验</title>
-    <link href="css/base.css" rel="stylesheet">
-    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="JSP/css/base.css" rel="stylesheet">
+    <link href="JSP/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="JSP/css/style.css" rel="stylesheet" type="text/css">
     <!--<link rel="stylesheet" href="css/ace.min.css" />-->
-    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="JSP/js/jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -109,52 +116,42 @@
                             <th scope="col">编号</th>
                             <th scope="col">实验名称</th>
                             <th scope="col">上课教师</th>
-                            <th scope="col">报名截止日期</th>
+                            <th scope="col">开设学期</th>
                             <th scope="col">报名进度</th>
                             <th scope="col">操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="row">#1</th>
-                            <td>CPU设计</td>
-                            <td>潘志兰</td>
-                            <td>2020-12-26</td>
-                            <td>48/52</td>
+<%  List<ExperimentInfo> experimentInfos=new ArrayList<>();
+    ExperimentService experimentService=new ExperimentService();
+    User user=(User) session.getAttribute("user");
+    experimentInfos=experimentService.selectAllExperimentInfo();
+    int number=1;
+    for (ExperimentInfo e:experimentInfos){%>
+        <form action="servlet/ExpTeacherServlet" method="post">
+                    <tr>
+                            <th scope="row">#<%=number%></th>
+                            <td ><%=e.getExpName()%><%request.getSession().setAttribute("expName",e.getExpName());%></td>
+                            <td ><%=e.getExpTeacherName()%><%request.getSession().setAttribute("expTeacherName",e.getExpTeacherName());%></td>
+                            <td ><%=e.getExpTerm()%><%request.getSession().setAttribute("expTerm", e.getExpTerm());%></td>
+                            <td ><%=e.getCurrentStudentCount()%>/<%=e.getExpMaxStudentCount()%></td>
 
                             <td>
                                 <div>
 
-                                    <button type="button" class="btn1 btn-primary waves-effect waves-light" id="alertify-success">报名实验</button>
+                                    <button type="submit" class="btn1 btn-primary waves-effect waves-light" id="alertify-success">报名实验</button>
+
                                 </div>
+
                                 <div>
 
                                     <button type="button" class="btn1 btn-primary waves-effect waves-light" id="alertify-confirm">取消报名</button>
                                 </div>
                             </td>
+        </form>
                         </tr>
-                        </tbody>
-                        <tbody>
-                        <tr>
-                            <th scope="row">#1</th>
-                            <td>CPU设计</td>
-                            <td>潘志兰</td>
-                            <td>2020-12-26</td>
-                            <td>48/52</td>
-
-                            <td>
-                                <div>
-
-                                    <button type="button" class="btn1 btn-primary waves-effect waves-light" id="alertify-success">报名实验</button>
-                                </div>
-                                <div>
-
-                                    <button type="button" class="btn1 btn-primary waves-effect waves-light" id="alertify-confirm">取消报名</button>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-
+            <%number=number+1;
+    }%>
                     </table>
                 </div>
             </div>

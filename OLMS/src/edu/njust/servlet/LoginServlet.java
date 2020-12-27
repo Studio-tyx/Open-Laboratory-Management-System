@@ -41,7 +41,7 @@ public class LoginServlet extends HttpServlet {
             User user=loginService.getUser(userId);
             req.getSession().setAttribute("user",user);
             switch (user.getUserType()){
-                case 1:req.getRequestDispatcher("/JSP/studentIndex.jsp").forward(req, resp);
+                case 1:req.getRequestDispatcher("/JSP/chooseExp.jsp").forward(req, resp);
                 break;
                 case 2:req.getRequestDispatcher("/JSP/expTeacherIndex.jsp").forward(req, resp);
                 break;
