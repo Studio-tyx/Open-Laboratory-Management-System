@@ -15,4 +15,5 @@
 	<select id="selectExperimentInfo" parameterType="String" resultType="experimentInfo">
 		select * from experimentInfo where expName=#{arg0} and expTeacherName=#{arg1} and expTerm=#{arg2}
 	</select>
+
 </mapper>

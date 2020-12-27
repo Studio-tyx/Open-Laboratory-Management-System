@@ -48,10 +48,15 @@ public class test {
         studentExperiment.setTime(1);
         ExperimentService experimentService=new ExperimentService();
         //debug(experimentService.chooseExp(studentExperiment));
-        LabService labService=new LabService();
+        //LabService labService=new LabService();
         //labService.deleteBeforeRoomInfo();
         //experimentService.admitExp(studentExperiment);
-        labService.chooseLab(studentExperiment);
+        //labService.chooseLab(studentExperiment);
+        List<StudentExperiment> l=new ArrayList<>();
+        l=experimentService.getStudentExperimentsByExpTeacherName("刘冬梅");
+        for (StudentExperiment l1:l){
+            System.out.println(l1.getExpName()+l1.getDate());
+        }
     }
 
     public static void debug(Object o){
