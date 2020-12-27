@@ -11,6 +11,8 @@ import edu.njust.utils.DBUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import java.util.List;
+
 /**
  * @author TYX
  * @name RegisterExp
@@ -90,5 +92,14 @@ public class ExperimentService {
         StudentExperiment studentExperiment=studentExpMapper.selectStudentExp(stuId,expName,expTeacherName,expTerm);
         session.close();
         return studentExperiment;
+    }
+    //根据老师的姓名来寻找所有的学生
+    public List<StudentExperiment> getStudentExperimentsByExpTeacherName(String expTeacherName){
+        SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
+        SqlSession session=factory.openSession(true);
+        StudentExpMapper studentExpMapper=session.getMapper(StudentExpMapper.class);
+        List<StudentExperiment> results=studentExpMapper.selectStudentExpsByExpTeacherName(expTeacherName);
+        session.close();
+        return results;
     }
 }
