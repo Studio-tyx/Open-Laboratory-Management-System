@@ -1,5 +1,6 @@
 package edu.njust.DAO;
 
+import edu.njust.entity.ExperimentInfo;
 import edu.njust.entity.StudentExperiment;
 
 import java.util.List;
@@ -14,4 +15,8 @@ public interface StudentExpMapper {
     StudentExperiment selectStudentExp(String stuId,String expName,String expTeacherName,String expTerm);
 
     List<StudentExperiment> selectStudentExpsByExpTeacherName(String expTeacherName);
+
+    List<StudentExperiment> getAllStudentExperiment();
+
+    List<StudentExperiment> selectStudentExpsByStuId(String stuId);
 }

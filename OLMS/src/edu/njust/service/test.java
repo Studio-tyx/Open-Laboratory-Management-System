@@ -22,10 +22,10 @@ public class test {
         //System.out.println(rightPassword);
         //boolean isLoginSuccess=loginService.login("918106840236","840236");
         //debug(isLoginSuccess);
-        //ExperimentService experimentService=new ExperimentService();
-        //boolean isInsertSuccess=experimentService.releaseExp
-        //        (new ExperimentInfo("软件建模技术","刘冬梅","大三上学期","教会你画UML图",50));
-        //debug(isInsertSuccess);
+        ExperimentService experimentService=new ExperimentService();
+        boolean isInsertSuccess=experimentService.releaseExp
+                (new ExperimentInfo("csp模拟考试","杨彬琪","大三上学期","测试",50));
+        debug(isInsertSuccess);
         //LabService labService=new LabService();
         //List<RoomInfo>rooms=new ArrayList<RoomInfo>();
         //rooms.add(new RoomInfo("1010","2020-12-23",1,50));
@@ -42,21 +42,25 @@ public class test {
         //debug(user.show());
         //StudentExpMapper mapper=session.getMapper(StudentExpMapper.class);
         //debug(mapper.selectStudentExp("918106840236","软件建模","刘冬梅","大三上学期").show());
-        StudentExperiment studentExperiment=new StudentExperiment("918106840242","软件建模","大三上学期","刘冬梅");
-        studentExperiment.setRoomId("1010");
-        studentExperiment.setDate("2020-12-26");
-        studentExperiment.setTime(1);
-        ExperimentService experimentService=new ExperimentService();
+//        StudentExperiment studentExperiment=new StudentExperiment("918106840242","软件建模","大三上学期","刘冬梅");
+//        studentExperiment.setRoomId("1010");
+//        studentExperiment.setDate("2020-12-26");
+//        studentExperiment.setTime(1);
+//        ExperimentService experimentService=new ExperimentService();
         //debug(experimentService.chooseExp(studentExperiment));
         //LabService labService=new LabService();
         //labService.deleteBeforeRoomInfo();
         //experimentService.admitExp(studentExperiment);
         //labService.chooseLab(studentExperiment);
-        List<StudentExperiment> l=new ArrayList<>();
-        l=experimentService.getStudentExperimentsByExpTeacherName("刘冬梅");
-        for (StudentExperiment l1:l){
-            System.out.println(l1.getExpName()+l1.getDate());
+        //List<StudentExperiment> l=new ArrayList<>();
+        //l=experimentService.getStudentExperimentsByExpTeacherName("刘冬梅");
+
+        List<ExperimentInfo> l=new ArrayList<>();
+        l=experimentService.selectAllExperimentInfo();
+        for (ExperimentInfo l1:l){
+           System.out.println(l1.getExpName()+l1.getExpTeacherName());
         }
+
     }
 
     public static void debug(Object o){

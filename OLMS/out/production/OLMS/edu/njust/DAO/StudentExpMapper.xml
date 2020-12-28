@@ -21,4 +21,7 @@
     <select id="selectStudentExpsByExpTeacherName" parameterType="String" resultType="StudentExperiment">
 		select * from studentExperiment where expTeacherName=#{arg0}
 	</select>
+    <select id="selectStudentExpsByStuId" resultType="studentExperiment">
+        select * from studentExperiment where stuId=#{0}
+    </select>
 </mapper>

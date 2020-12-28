@@ -2,6 +2,8 @@ package edu.njust.DAO;
 
 import edu.njust.entity.ExperimentInfo;
 
+import java.util.List;
+
 public interface ExpInfoMapper {
 
     int insertExperimentInfo(ExperimentInfo experimentInfo);
@@ -9,4 +11,5 @@ public interface ExpInfoMapper {
     int modifyExperimentInfo(ExperimentInfo experimentInfo);
 
     ExperimentInfo selectExperimentInfo(String expName,String expTeacherName,String expTerm);
+    List<ExperimentInfo> selectAllExperimentInfo();
 }

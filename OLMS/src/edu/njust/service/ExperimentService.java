@@ -93,7 +93,24 @@ public class ExperimentService {
         session.close();
         return studentExperiment;
     }
-    //根据老师的姓名来寻找所有的学生
+    public List<ExperimentInfo> selectAllExperimentInfo(){
+        SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
+        SqlSession session=factory.openSession(true);
+        ExpInfoMapper expInfoMapper=session.getMapper(ExpInfoMapper.class);
+        List<ExperimentInfo> results=expInfoMapper.selectAllExperimentInfo();
+        session.close();
+        return results;
+    }
+    //根据stuId获得所有StudentExperiment
+    public List<StudentExperiment> getStudentExperimentsByStuId(String stuId){
+        SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
+        SqlSession session=factory.openSession(true);
+        StudentExpMapper studentExpMapper=session.getMapper(StudentExpMapper.class);
+        List<StudentExperiment> results=studentExpMapper.selectStudentExpsByStuId(stuId);
+        session.close();
+        return results;
+    }
+    //
     public List<StudentExperiment> getStudentExperimentsByExpTeacherName(String expTeacherName){
         SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
         SqlSession session=factory.openSession(true);
@@ -102,4 +119,5 @@ public class ExperimentService {
         session.close();
         return results;
     }
+
 }
