@@ -39,7 +39,20 @@ public class ExpTeacherServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        String expteacherName= (String) req.getSession().getAttribute("teacherName");
+        String stuId=(String)req.getSession().getAttribute("stuId");
+        String expName=(String)req.getSession().getAttribute("expName");
+        String expTerm=(String)req.getSession().getAttribute("expTerm");
+        StudentExperiment studentExperiment=new StudentExperiment();
+        ExperimentService experimentService=new ExperimentService();
+        studentExperiment=experimentService.getStudentExperiment(stuId,expName,expteacherName,expTerm);
+        if (!studentExperiment.isHasAdmitted()){
+            studentExperiment.setHasAdmitted(true);
+            req.getSession().setAttribute("BoolAdmitted",1);
+        }else{
+            req.getSession().setAttribute("BoolAdmitted",0);
+        }
+
     }
 
     /**

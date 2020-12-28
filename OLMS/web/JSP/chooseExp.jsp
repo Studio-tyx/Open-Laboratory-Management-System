@@ -64,7 +64,7 @@
                 <a href="#">实验报告</a>
                 <ul class="sub">
                     <li>
-                        <a href="#">提交报告</a>
+                        <a href="JSP/submitReport.jsp">提交报告</a>
                     </li>
                     <li>
                         <a href="#">文件下载</a>
@@ -126,9 +126,14 @@
     ExperimentService experimentService=new ExperimentService();
     User user=(User) session.getAttribute("user");
     experimentInfos=experimentService.selectAllExperimentInfo();
+    Date date = new Date(); // this object contains the current date value
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    String today=formatter.format(date);
     int number=1;
-    for (ExperimentInfo e:experimentInfos){%>
-        <form action="servlet/ExpTeacherServlet" method="post">
+    for (ExperimentInfo e:experimentInfos){
+        request.getSession().setAttribute("date",today);
+%>
+
                     <tr>
                             <th scope="row">#<%=number%></th>
                             <td ><%=e.getExpName()%><%request.getSession().setAttribute("expName",e.getExpName());%></td>
@@ -138,17 +143,17 @@
 
                             <td>
                                 <div>
-
-                                    <button type="submit" class="btn1 btn-primary waves-effect waves-light" id="alertify-success">报名实验</button>
-
+                                    <form action="servlet/StudentExpServlet" method="get">
+                                        <button type="submit" class="btn1 btn-primary waves-effect waves-light" id="alertify-success">报名实验</button>
+                                    </form>
                                 </div>
 
                                 <div>
 
-                                    <button type="button" class="btn1 btn-primary waves-effect waves-light" id="alertify-confirm">取消报名</button>
+                                    <button type="submit" class="btn1 btn-primary waves-effect waves-light" id="alertify-confirm">取消报名</button>
                                 </div>
                             </td>
-        </form>
+
                         </tr>
             <%number=number+1;
     }%>

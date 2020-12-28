@@ -15,7 +15,7 @@ public class StudentExperiment {
     private String date;
     private int time;
     private int seatNo;
-    private boolean hasAdmitted;
+    public boolean hasAdmitted;
     private String reportAddr;
 
     public StudentExperiment() {

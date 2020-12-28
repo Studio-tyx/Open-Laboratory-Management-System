@@ -27,6 +27,7 @@
 </head>
 
 <body>
+<a href="Report/软工测试.doc">下载</a>
 <div align="center" class="title_top">南京理工大学开放实验平台</div>
 <div class="container">
     <div class="shadow len_top">
