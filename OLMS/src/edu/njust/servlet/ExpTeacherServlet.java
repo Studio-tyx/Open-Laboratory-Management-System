@@ -1,5 +1,6 @@
 package edu.njust.servlet;
 
+import edu.njust.entity.ExperimentInfo;
 import edu.njust.entity.StudentExperiment;
 import edu.njust.entity.User;
 import edu.njust.service.ExperimentService;
@@ -39,20 +40,22 @@ public class ExpTeacherServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String expteacherName= (String) req.getSession().getAttribute("teacherName");
-        String stuId=(String)req.getSession().getAttribute("stuId");
-        String expName=(String)req.getSession().getAttribute("expName");
-        String expTerm=(String)req.getSession().getAttribute("expTerm");
+        String expteacherName= (String) req.getParameter("expTeacherName");
+        String stuId=(String)req.getParameter("stuId");
+        String expName=(String)req.getParameter("expName");
+        String expTerm=(String)req.getParameter("expTerm");
         StudentExperiment studentExperiment=new StudentExperiment();
+        //studentExperiment= (StudentExperiment) req.getAttribute("s");
         ExperimentService experimentService=new ExperimentService();
         studentExperiment=experimentService.getStudentExperiment(stuId,expName,expteacherName,expTerm);
-        if (!studentExperiment.isHasAdmitted()){
-            studentExperiment.setHasAdmitted(true);
+        if (!studentExperiment.hasAdmitted){
+            experimentService.admitExp(studentExperiment);
             req.getSession().setAttribute("BoolAdmitted",1);
         }else{
             req.getSession().setAttribute("BoolAdmitted",0);
+            req.getRequestDispatcher("/JSP/failure.jsp").forward(req,resp);
         }
-
+        req.getRequestDispatcher("/JSP/admitExp.jsp").forward(req,resp);
     }
 
     /**
@@ -69,24 +72,20 @@ public class ExpTeacherServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String expTerm= (String) req.getSession().getAttribute("expTerm");
-
-        User user=(User) req.getSession().getAttribute("user");
-        String expName= (String) req.getSession().getAttribute("expName");
-        String expTeacherName= (String) req.getSession().getAttribute("expTeacherName");
-        //封装学生实验类
-        StudentExperiment studentExperiment=new StudentExperiment(user.getUserId(),expName,expTerm,expTeacherName);
-        ExperimentService experimentService= new ExperimentService();
-        //findstu为了防止出现相同的学生申请两次
-        StudentExperiment findStu=new StudentExperiment();
-        findStu=experimentService.getStudentExperiment(user.getUserId(),expName,expTeacherName,expTerm);
-
-        if(findStu.getExpName().equals(null)){
-            experimentService.chooseExp(studentExperiment);
-            req.setAttribute("BoolChoose",true);
+        req.setCharacterEncoding("utf-8");
+        User user=new User();
+        user= (User) req.getSession().getAttribute("user");
+        String expTeacherName=user.getUserName();
+        String expName=req.getParameter("expName");
+        String expTerm=req.getParameter("expTerm");
+        String expIntroduction=req.getParameter("expIntroduction");
+        ExperimentInfo experimentInfo=new ExperimentInfo(expName,expTeacherName,expTerm,expIntroduction,Integer.parseInt(req.getParameter("expMaxStudentCount")));
+        ExperimentService experimentService=new ExperimentService();
+        if (experimentService.releaseExp(experimentInfo)){
+            req.getSession().setAttribute("BoolRelease",1);
         }else{
-            req.setAttribute("BoolChoose",false);
+            req.getSession().setAttribute("BoolRelease",0);
         }
-        req.getRequestDispatcher("/JSP/chooseExp.jsp").forward(req, resp);
+        req.getRequestDispatcher("/JSP/teacherIndex.jsp").forward(req, resp);
     }
 }
