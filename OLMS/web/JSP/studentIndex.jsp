@@ -44,6 +44,9 @@
                 <a href="JSP/submitReport.jsp">上传实验报告</a>
             </li>
             <li>
+                <a href="JSP/submitReport.jsp">预约实验室</a>
+            </li>
+            <li>
                 <a href="#">申请审核</a>
             </li>
             <li>

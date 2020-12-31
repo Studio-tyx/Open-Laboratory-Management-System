@@ -16,7 +16,6 @@ public interface RoomInfoMapper {
 
     int selectFreeSeatCount(String roomId,String date,int time);
     List<String> selectRoomIds();//所有机房号的集合
-
-
+    List<RoomInfo> selectRoom(String date);
 
 }
