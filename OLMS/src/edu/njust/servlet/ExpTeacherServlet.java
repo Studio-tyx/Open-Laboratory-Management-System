@@ -40,22 +40,24 @@ public class ExpTeacherServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String expteacherName= (String) req.getParameter("expTeacherName");
-        String stuId=(String)req.getParameter("stuId");
-        String expName=(String)req.getParameter("expName");
-        String expTerm=(String)req.getParameter("expTerm");
-        StudentExperiment studentExperiment=new StudentExperiment();
-        //studentExperiment= (StudentExperiment) req.getAttribute("s");
-        ExperimentService experimentService=new ExperimentService();
-        studentExperiment=experimentService.getStudentExperiment(stuId,expName,expteacherName,expTerm);
-        if (!studentExperiment.hasAdmitted){
-            experimentService.admitExp(studentExperiment);
-            req.getSession().setAttribute("BoolAdmitted",1);
-        }else{
-            req.getSession().setAttribute("BoolAdmitted",0);
-            req.getRequestDispatcher("/JSP/failure.jsp").forward(req,resp);
-        }
-        req.getRequestDispatcher("/JSP/admitExp.jsp").forward(req,resp);
+                String expteacherName = (String) req.getParameter("expTeacherName");
+                String stuId = (String) req.getParameter("stuId");
+                String expName = (String) req.getParameter("expName");
+                String expTerm = (String) req.getParameter("expTerm");
+                StudentExperiment studentExperiment = new StudentExperiment();
+                //studentExperiment= (StudentExperiment) req.getAttribute("s");
+                ExperimentService experimentService = new ExperimentService();
+                studentExperiment = experimentService.getStudentExperiment(stuId, expName, expteacherName, expTerm);
+                if (!studentExperiment.hasAdmitted) {
+                    experimentService.admitExp(studentExperiment);
+                    req.getSession().setAttribute("BoolAdmitted", 1);
+                    req.getRequestDispatcher("/JSP/admitExp.jsp").forward(req, resp);
+                } else {
+                    req.getRequestDispatcher("/JSP/failure.jsp").forward(req, resp);
+                    req.getSession().setAttribute("BoolAdmitted", 0);
+                }
+
+
     }
 
     /**
@@ -72,20 +74,67 @@ public class ExpTeacherServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("utf-8");
-        User user=new User();
-        user= (User) req.getSession().getAttribute("user");
-        String expTeacherName=user.getUserName();
-        String expName=req.getParameter("expName");
-        String expTerm=req.getParameter("expTerm");
-        String expIntroduction=req.getParameter("expIntroduction");
-        ExperimentInfo experimentInfo=new ExperimentInfo(expName,expTeacherName,expTerm,expIntroduction,Integer.parseInt(req.getParameter("expMaxStudentCount")));
-        ExperimentService experimentService=new ExperimentService();
-        if (experimentService.releaseExp(experimentInfo)){
-            req.getSession().setAttribute("BoolRelease",1);
-        }else{
-            req.getSession().setAttribute("BoolRelease",0);
+//        req.setCharacterEncoding("utf-8");
+//        User user=new User();
+//        user= (User) req.getSession().getAttribute("user");
+//        String expTeacherName=user.getUserName();
+//        String expName=req.getParameter("expName");
+//        String expTerm=req.getParameter("expTerm");
+//        String expIntroduction=req.getParameter("expIntroduction");
+//        ExperimentInfo experimentInfo=new ExperimentInfo(expName,expTeacherName,expTerm,expIntroduction,Integer.parseInt(req.getParameter("expMaxStudentCount")));
+//        ExperimentService experimentService=new ExperimentService();
+//        if (experimentService.releaseExp(experimentInfo)){
+//            req.getSession().setAttribute("BoolRelease",1);
+//        }else{
+//            req.getSession().setAttribute("BoolRelease",0);
+//        }
+//        req.getRequestDispatcher("/JSP/teacherIndex.jsp").forward(req, resp);
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("UTF-8");
+        String opt=req.getParameter("opt");
+        System.out.println(opt);
+        switch (opt) {
+            case "admit":
+                String expteacherName = (String) req.getParameter("expTeacherName");
+                String stuId = (String) req.getParameter("stuId");
+                String expName = (String) req.getParameter("expName");
+                String expTerm = (String) req.getParameter("expTerm");
+                StudentExperiment studentExperiment = new StudentExperiment();
+                System.out.println(stuId);
+                //studentExperiment= (StudentExperiment) req.getAttribute("s");
+                ExperimentService experimentService = new ExperimentService();
+                studentExperiment = experimentService.getStudentExperiment(stuId, expName, expteacherName, expTerm);
+                if (!studentExperiment.hasAdmitted) {
+                    experimentService.admitExp(studentExperiment);
+                    List<StudentExperiment> studentExperiments= new ArrayList<>();
+                    studentExperiments=experimentService.getExperimentByTeacherNameAndExpTermAndExpName(expteacherName,expTerm,expName);
+                    req.getSession().setAttribute("stups",studentExperiments);
+                    req.getSession().setAttribute("BoolAdmitted", 1);
+                } else {
+                    req.getSession().setAttribute("BoolAdmitted", 0);
+                    req.getRequestDispatcher("/JSP/failure.jsp").forward(req, resp);
+                }
+                req.getRequestDispatcher("/JSP/admitExp.jsp").forward(req, resp);
+
+
+
+            case "find":
+                String expTerm1=req.getParameter("expTerm");
+                String expName1=req.getParameter("expName");
+                List<String> expterm= (List<String>) req.getSession().getAttribute("Term");
+                expTerm1=expterm.get(Integer.parseInt(expTerm1));
+                System.out.println(expName1);
+                User eT= (User) req.getSession().getAttribute("user");
+                String exptcher=eT.getUserName();
+                List<StudentExperiment> studentExperiments= new ArrayList<>();
+                ExperimentService experimentServices = new ExperimentService();
+                studentExperiments=experimentServices.getExperimentByTeacherNameAndExpTermAndExpName(exptcher,expTerm1,expName1);
+                req.getSession().setAttribute("expTerm",expTerm1);
+                req.getSession().setAttribute("expName",expName1);
+                System.out.println();
+                req.getRequestDispatcher("/JSP/admitExp.jsp").forward(req, resp);
+            default:
+                break;
         }
-        req.getRequestDispatcher("/JSP/teacherIndex.jsp").forward(req, resp);
     }
 }

@@ -19,4 +19,6 @@ public interface StudentExpMapper {
     List<StudentExperiment> getAllStudentExperiment();
 
     List<StudentExperiment> selectStudentExpsByStuId(String stuId);
+
+    List<StudentExperiment> selectExperimentByTeacherNameAndExpTermAndExpName(String expTeacherName,String expTerm,String ExpName);
 }

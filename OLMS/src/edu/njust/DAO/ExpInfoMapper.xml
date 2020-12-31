@@ -18,4 +18,14 @@
 	<select id="selectAllExperimentInfo" resultType="experimentInfo">
 		select * from experimentInfo
 	</select>
+	<select id="selectExperimentInfoByTeacherName" resultType="experimentInfo">
+		select * from experimentInfo where expTeacherName=#{arg0}
+	</select>
+	<select id="selectExperimentByTeacherNameAndExpTerm" resultType="experimentInfo">
+		select * from experimentInfo where expTeacherName=#{arg0} and expTerm=#{arg1}
+	</select>
+
+	<select id="selectExperimentTermByTeacherName" resultType="String">
+		select distinct expTerm from experimentInfo where expTeacherName=#{arg0}
+	</select>
 </mapper>
