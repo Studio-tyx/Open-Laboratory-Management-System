@@ -19,5 +19,8 @@
 	<select id="selectRoomIds" resultType="String">
 		select distinct roomId from roomInfo
 	</select>
+	<select id="selectRoom" resultType="roomInfo">
+		select * from roomInfo where date =#{date}
+	</select>
 
 </mapper>

@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -60,7 +61,6 @@ public class LabService {
     public boolean deleteBeforeRoomInfo(){
         SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
         SqlSession session=factory.openSession(true);
-
         Date date = new Date(); // this object contains the current date value
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String today=formatter.format(date);
@@ -82,4 +82,14 @@ public class LabService {
         session.close();
         return true;
     }
+    //根据日期获取所有的机房
+    public List<RoomInfo> getAllRoomInfo(String date){
+        SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
+        SqlSession session=factory.openSession(true);
+        RoomInfoMapper roomInfoMapper=session.getMapper(RoomInfoMapper.class);
+        List<RoomInfo> results=roomInfoMapper.selectRoom(date);
+        session.close();
+        return results;
+    }
+
 }

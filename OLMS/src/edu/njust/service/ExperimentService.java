@@ -119,5 +119,39 @@ public class ExperimentService {
         session.close();
         return results;
     }
-
+    //通过老师的名字来返回老师已发布的实验
+    public List<ExperimentInfo> getExperimentByTeacherName(String expTeacher){
+        SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
+        SqlSession session=factory.openSession(true);
+        ExpInfoMapper expInfoMapper=session.getMapper(ExpInfoMapper.class);
+        List<ExperimentInfo> results=expInfoMapper.selectExperimentInfoByTeacherName(expTeacher);
+        session.close();
+        return results;
+    }
+    //通过老师的姓名和开课学期来找到老师已发布的课程
+    //已测试
+    public List<ExperimentInfo> getExperimentByTeacherNameAndExpTerm(String expTeacher,String expTerm){
+        SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
+        SqlSession session=factory.openSession(true);
+        ExpInfoMapper expInfoMapper=session.getMapper(ExpInfoMapper.class);
+        List<ExperimentInfo> results=expInfoMapper.selectExperimentByTeacherNameAndExpTerm(expTeacher,expTerm);
+        session.close();
+        return results;
+    }
+    public List<String> getExperimentTermByTeacherName(String expTeacher){
+        SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
+        SqlSession session=factory.openSession(true);
+        ExpInfoMapper expInfoMapper=session.getMapper(ExpInfoMapper.class);
+        List<String> results=expInfoMapper.selectExperimentTermByTeacherName(expTeacher);
+        session.close();
+        return results;
+    }
+    public List<StudentExperiment> getExperimentByTeacherNameAndExpTermAndExpName(String expTeacherName,String expTerm,String expName){
+        SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
+        SqlSession session=factory.openSession(true);
+        StudentExpMapper studentExpMapper=session.getMapper(StudentExpMapper.class);
+        List<StudentExperiment> results=studentExpMapper.selectExperimentByTeacherNameAndExpTermAndExpName(expTeacherName,expTerm,expName);
+        session.close();
+        return results;
+    }
 }

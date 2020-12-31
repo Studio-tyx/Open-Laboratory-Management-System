@@ -12,7 +12,6 @@ public class RoomInfo {
     private String date;
     private int time;
     private int freeCount;
-
     public RoomInfo() {
     }
 

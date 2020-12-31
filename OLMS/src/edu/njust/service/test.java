@@ -23,9 +23,9 @@ public class test {
         //boolean isLoginSuccess=loginService.login("918106840236","840236");
         //debug(isLoginSuccess);
         ExperimentService experimentService=new ExperimentService();
-        boolean isInsertSuccess=experimentService.releaseExp
-                (new ExperimentInfo("csp模拟考试","杨彬琪","大三上学期","测试",50));
-        debug(isInsertSuccess);
+//        boolean isInsertSuccess=experimentService.releaseExp
+//                (new ExperimentInfo("csp模拟考试","杨彬琪","大三上学期","测试",50));
+//        debug(isInsertSuccess);
         //LabService labService=new LabService();
         //List<RoomInfo>rooms=new ArrayList<RoomInfo>();
         //rooms.add(new RoomInfo("1010","2020-12-23",1,50));
@@ -55,10 +55,10 @@ public class test {
         //List<StudentExperiment> l=new ArrayList<>();
         //l=experimentService.getStudentExperimentsByExpTeacherName("刘冬梅");
 
-        List<ExperimentInfo> l=new ArrayList<>();
-        l=experimentService.selectAllExperimentInfo();
-        for (ExperimentInfo l1:l){
-           System.out.println(l1.getExpName()+l1.getExpTeacherName());
+        List<StudentExperiment> l=new ArrayList<StudentExperiment>();
+        l=experimentService.getExperimentByTeacherNameAndExpTermAndExpName("刘冬梅","2020-1","软件建模");
+        for (StudentExperiment l1:l){
+           System.out.println(l1.getRoomId());
         }
 
     }
