@@ -87,7 +87,8 @@ public class ExpTeacherServlet extends HttpServlet {
                 expTerm=req.getParameter("expTerm");
                 studentExperiment = experimentService.getStudentExperiment(stuId, expName, expTeacherName, expTerm);
                 experimentService.deleteStudentExperiment(studentExperiment);
-                req.getSession().setAttribute("info","审核失败");
+                req.getSession().setAttribute("info","操作成功");
+                studentExperiments=experimentService.getStudentExperimentsByExpTeacherName(expTeacherName);
                 req.getSession().setAttribute("results",studentExperiments);
                 req.getRequestDispatcher("/JSP/et/admitExp.jsp").forward(req,resp);
                 break;

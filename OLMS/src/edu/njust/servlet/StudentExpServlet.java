@@ -56,10 +56,8 @@ public class StudentExpServlet extends HttpServlet {
                 labService.chooseLab(studentExperiment);
                 req.getSession().setAttribute("info","预约成功");
                 req.getRequestDispatcher("/JSP/s/studentExp.jsp").forward(req,resp);
-
                 break;
             case "find":
-
                 if(date==null){
                     String findDate=(String)req.getSession().getAttribute("findDate");
                     if(findDate!=null){

@@ -27,22 +27,32 @@ public class LabTeacherServlet extends HttpServlet {
         String opt=req.getParameter("opt");
         switch (opt){
             case "add":
+                Date _date1 = new Date();
+                SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+                String today1=formatter1.format(_date1);
                 String date=req.getParameter("date");
-                req.getSession().setAttribute("findDate",date);
-                String time=req.getParameter("time");
-                //String Time[4]={"8:00-10:25","10:40-12:15","14:00-15:35","15:50-18:15"};
-                String roomId=req.getParameter("roomId");
-                String freaCount=req.getParameter("freaCount");
-                RoomInfo roomInfo=new RoomInfo(roomId,date,Integer.parseInt(time),Integer.parseInt(freaCount));
-                LabService labService=new LabService();
-                int result=labService.addRoomInfos(roomInfo);
-                labService.deleteBeforeRoomInfo();
-                if(result==1){
-                    req.getSession().setAttribute("info","添加成功");
+                if (date.compareTo(today1)>=0){
+                    req.getSession().setAttribute("findDate",date);
+                    String time=req.getParameter("time");
+                    //String Time[4]={"8:00-10:25","10:40-12:15","14:00-15:35","15:50-18:15"};
+                    String roomId=req.getParameter("roomId");
+                    String freaCount=req.getParameter("freaCount");
+                    RoomInfo roomInfo=new RoomInfo(roomId,date,Integer.parseInt(time),Integer.parseInt(freaCount));
+                    LabService labService=new LabService();
+                    int result=labService.addRoomInfos(roomInfo);
+                    labService.deleteBeforeRoomInfo();
+                    if(result==1){
+                        req.getSession().setAttribute("info","添加成功");
+                    }else{
+                        req.getSession().setAttribute("info","修改成功");
+                    }
+                    req.getRequestDispatcher("/servlet/LabTeacherServlet?opt=find").forward(req,resp);
                 }else{
-                    req.getSession().setAttribute("info","修改成功");
+                    req.getSession().setAttribute("info","不能发布今天之前的时间哦~~");
+                    req.getRequestDispatcher("/JSP/lt/addLabTable.jsp").forward(req,resp);
                 }
-                req.getRequestDispatcher("/servlet/LabTeacherServlet?opt=find").forward(req,resp);
+                break;
+
             case "deleteAll":
 
 
