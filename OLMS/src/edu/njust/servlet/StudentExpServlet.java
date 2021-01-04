@@ -42,6 +42,9 @@ public class StudentExpServlet extends HttpServlet {
         String date=req.getParameter("date");
         LabService labService=new LabService();
         ExperimentService experimentService=new ExperimentService();
+        Date _date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String today=formatter.format(_date);
         switch (opt){
             case "reserve":
                 String roomId=req.getParameter("roomId");
@@ -53,25 +56,32 @@ public class StudentExpServlet extends HttpServlet {
                 labService.chooseLab(studentExperiment);
                 req.getSession().setAttribute("info","预约成功");
                 req.getRequestDispatcher("/JSP/s/studentExp.jsp").forward(req,resp);
+
                 break;
             case "find":
+
                 if(date==null){
                     String findDate=(String)req.getSession().getAttribute("findDate");
                     if(findDate!=null){
                         date=findDate;
                     }else{
-                        Date _date = new Date();
-                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                        String today=formatter.format(_date);
                         date=today;
                     }
                 }
-                req.getSession().setAttribute("findDate",date);
-                List<RoomInfo> roomInfoList=new ArrayList<>();
-                roomInfoList=labService.getAllRoomInfo(date);
-                req.getSession().setAttribute("roomlist",roomInfoList);
-                req.getRequestDispatcher("/JSP/s/chooseLab.jsp?expName="+expName+
-                        "&expTeacherName="+expTeacherName+"&expTerm="+expTerm).forward(req,resp);
+                if (date.compareTo(today)>=0){
+                    req.getSession().setAttribute("findDate",date);
+                    List<RoomInfo> roomInfoList=new ArrayList<>();
+                    roomInfoList=labService.getAllRoomInfo(date);
+                    System.out.println(roomInfoList.size());
+                    req.getSession().setAttribute("roomlist",roomInfoList);
+                    req.getRequestDispatcher("/JSP/s/chooseLab.jsp?expName="+expName+
+                            "&expTeacherName="+expTeacherName+"&expTerm="+expTerm).forward(req,resp);
+                }
+                else {
+                    req.getSession().setAttribute("info","预约时间已经过了哦~");
+                    req.getRequestDispatcher("/JSP/s/chooseLab.jsp").forward(req,resp);
+                }
+
                 break;
             default:
         }
