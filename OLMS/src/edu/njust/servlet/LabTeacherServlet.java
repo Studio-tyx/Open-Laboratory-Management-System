@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,45 +21,50 @@ import java.util.List;
  **/
 public class LabTeacherServlet extends HttpServlet {
 
-    /**
-     *
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
-     * 获取下周的机房信息并更新数据库
-     * 注：数据库中共两周 本周数据信息+下周数据信息 10*5*n(机房数)
-     * 删除上周数据：LabService().delLastWeek()
-     * 增加下周数据：LabService().addNextWeek()
-     * 返回为false跳转至failure.jsp
-     * 返回为true跳转至labTeacherIndex.jsp
-     */
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String opt=req.getParameter("opt");
         switch (opt){
             case "add":
                 String date=req.getParameter("date");
+                req.getSession().setAttribute("findDate",date);
                 String time=req.getParameter("time");
                 //String Time[4]={"8:00-10:25","10:40-12:15","14:00-15:35","15:50-18:15"};
                 String roomId=req.getParameter("roomId");
                 String freaCount=req.getParameter("freaCount");
-                List<RoomInfo> roomInfos=new ArrayList<>();
                 RoomInfo roomInfo=new RoomInfo(roomId,date,Integer.parseInt(time),Integer.parseInt(freaCount));
-                roomInfos.add(roomInfo);
                 LabService labService=new LabService();
-                labService.addRoomInfos(roomInfos);
-                req.getRequestDispatcher("/JSP/labTeacherIndex.jsp").forward(req,resp);
+                int result=labService.addRoomInfos(roomInfo);
+                labService.deleteBeforeRoomInfo();
+                if(result==1){
+                    req.getSession().setAttribute("info","添加成功");
+                }else{
+                    req.getSession().setAttribute("info","修改成功");
+                }
+                req.getRequestDispatcher("/servlet/LabTeacherServlet?opt=find").forward(req,resp);
             case "deleteAll":
 
 
             case "find":
                 date=req.getParameter("date");
+                if(date==null){
+                    String findDate=(String)req.getSession().getAttribute("findDate");
+                    if(findDate!=null){
+                        date=findDate;
+                    }else{
+                        Date _date = new Date();
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        String today=formatter.format(_date);
+                        date=today;
+                    }
+                }
+                req.getSession().setAttribute("findDate",date);
                 List<RoomInfo> roomInfoList=new ArrayList<>();
                 LabService labService1=new LabService();
                 roomInfoList=labService1.getAllRoomInfo(date);
                 req.getSession().setAttribute("roomlist",roomInfoList);
-                req.getRequestDispatcher("/JSP/chooseLab.jsp").forward(req,resp);
+                req.getRequestDispatcher("/JSP/lt/showLab.jsp").forward(req,resp);
             default:
                 break;
         }

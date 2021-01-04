@@ -11,5 +11,7 @@
     <select id="selectUserById" parameterType="string" resultType="user" >
 		select * from user where userId = #{userId}
 	</select>
-
+	<update id="changePassword" parameterType="String">
+		update user set password=#{arg0} where userId=#{arg1}
+	</update>
 </mapper>

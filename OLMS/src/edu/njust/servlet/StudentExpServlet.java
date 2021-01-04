@@ -1,8 +1,10 @@
 package edu.njust.servlet;
 
+import edu.njust.entity.RoomInfo;
 import edu.njust.entity.StudentExperiment;
 import edu.njust.entity.User;
 import edu.njust.service.ExperimentService;
+import edu.njust.service.LabService;
 import org.apache.ibatis.jdbc.Null;
 
 import javax.servlet.ServletException;
@@ -10,6 +12,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author TYX
@@ -18,64 +25,61 @@ import java.io.IOException;
  * @time
  **/
 public class StudentExpServlet extends HttpServlet {
-    /**
-     *
-     * 获取学生选择的实验
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
-     * 封装为StudentExperiment类
-     * 使用构造器StudentExperiment(String studentId, String expName, String expTerm, String expTeacherName)
-     *      该构造器默认教师审批为false
-     *      其余实验室相关信息为null
-     * 调用ExperimentService.chooseExperiment方法
-     * 返回true则跳转至studentIndex.jsp
-     * 返回false则跳转至failure.jsp
-     */
+
     @Override
+    //处理学生预约机房
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String expTerm= (String) req.getSession().getAttribute("expTerm");
-        User user=(User) req.getSession().getAttribute("user");
-        String expName= (String) req.getSession().getAttribute("expName");
-        String expTeacherName= (String) req.getSession().getAttribute("expTeacherName");
-        String date= (String) req.getSession().getAttribute("date");
-        //封装学生实验类
-        StudentExperiment studentExperiment=new StudentExperiment(user.getUserId(),expName,expTerm,expTeacherName);
-        ExperimentService experimentService= new ExperimentService();
-        studentExperiment.setDate(date);
-        //findstu为了防止出现相同的学生申请两次
-        StudentExperiment findStu=new StudentExperiment();
-        findStu=experimentService.getStudentExperiment(user.getUserId(),expName,expTeacherName,expTerm);
-        if(findStu==null){
-            experimentService.chooseExp(studentExperiment);
-            req.getSession().setAttribute("BoolChoose",true);
-        }else{
-            req.getSession().setAttribute("BoolChoose",false);
+        req.setCharacterEncoding("utf-8");
+        resp.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = resp.getWriter();
+        //
+        String opt=req.getParameter("opt");
+        String expName=req.getParameter("expName");
+        String expTeacherName=req.getParameter("expTeacherName");
+        String expTerm=req.getParameter("expTerm");
+        User user= (User) req.getSession().getAttribute("user");
+        String stuId=user.getUserId();
+        String date=req.getParameter("date");
+        LabService labService=new LabService();
+        ExperimentService experimentService=new ExperimentService();
+        switch (opt){
+            case "reserve":
+                String roomId=req.getParameter("roomId");
+                Integer time=Integer.parseInt( req.getParameter("time"));
+                StudentExperiment studentExperiment=experimentService.getStudentExperiment(stuId,expName,expTeacherName,expTerm);
+                studentExperiment.setRoomId(roomId);
+                studentExperiment.setDate(date);
+                studentExperiment.setTime(time);
+                labService.chooseLab(studentExperiment);
+                req.getSession().setAttribute("info","预约成功");
+                req.getRequestDispatcher("/JSP/s/studentExp.jsp").forward(req,resp);
+                break;
+            case "find":
+                if(date==null){
+                    String findDate=(String)req.getSession().getAttribute("findDate");
+                    if(findDate!=null){
+                        date=findDate;
+                    }else{
+                        Date _date = new Date();
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        String today=formatter.format(_date);
+                        date=today;
+                    }
+                }
+                req.getSession().setAttribute("findDate",date);
+                List<RoomInfo> roomInfoList=new ArrayList<>();
+                roomInfoList=labService.getAllRoomInfo(date);
+                req.getSession().setAttribute("roomlist",roomInfoList);
+                req.getRequestDispatcher("/JSP/s/chooseLab.jsp?expName="+expName+
+                        "&expTeacherName="+expTeacherName+"&expTerm="+expTerm).forward(req,resp);
+                break;
+            default:
         }
-        req.getRequestDispatcher("/JSP/chooseExp.jsp").forward(req, resp);
     }
 
-    /**
-     *
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
-     *
-     * 学生选择机房与时间 后台分配机位
-     * 返回true则跳转至studentIndex.jsp
-     * 返回false则跳转至failure.jsp
-     */
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //封装学生类
-        String expTerm= (String) req.getSession().getAttribute("expTerm");
-        User user=(User) req.getSession().getAttribute("user");
-        String expName= (String) req.getSession().getAttribute("expName");
-        String expTeacherName= (String) req.getSession().getAttribute("expTeacherName");
-        StudentExperiment studentExperiment=new StudentExperiment(user.getUserId(),expName,expTerm,expTeacherName);
-        ExperimentService experimentService= new ExperimentService();
-        //如果学生的申请通过，可以选择座位与时间；
+        doGet(req,resp);
     }
 }

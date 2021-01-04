@@ -16,7 +16,7 @@
 		select * from experimentInfo where expName=#{arg0} and expTeacherName=#{arg1} and expTerm=#{arg2}
 	</select>
 	<select id="selectAllExperimentInfo" resultType="experimentInfo">
-		select * from experimentInfo
+		select * from experimentInfo order by expTerm,expName
 	</select>
 	<select id="selectExperimentInfoByTeacherName" resultType="experimentInfo">
 		select * from experimentInfo where expTeacherName=#{arg0}

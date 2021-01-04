@@ -72,15 +72,22 @@ public class LabService {
 
     //机房老师添加机房信息
     //已测试
-    public boolean addRoomInfos(List<RoomInfo> rooms){
+    public int addRoomInfos(RoomInfo roomInfo){
         SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
         SqlSession session=factory.openSession(true);
         RoomInfoMapper roomInfoMapper=session.getMapper(RoomInfoMapper.class);
-        for(int i=0;i<rooms.size();i++){
-            roomInfoMapper.insertRoomInfo(rooms.get(i));
+        //先要看是否有这个机房实验
+        RoomInfo roomInfo1=roomInfoMapper.selectRoomInfo(roomInfo.getRoomId(),roomInfo.getDate(),roomInfo.getTime());
+        if(roomInfo1==null){
+            roomInfoMapper.insertRoomInfo(roomInfo);
+            session.close();
+            return 1;
+        }else{
+            roomInfoMapper.modifyFreeSeatCount(roomInfo);
+            session.close();
+            return 2;
         }
-        session.close();
-        return true;
+
     }
     //根据日期获取所有的机房
     public List<RoomInfo> getAllRoomInfo(String date){

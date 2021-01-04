@@ -55,11 +55,13 @@ public class test {
         //List<StudentExperiment> l=new ArrayList<>();
         //l=experimentService.getStudentExperimentsByExpTeacherName("刘冬梅");
 
-        List<StudentExperiment> l=new ArrayList<StudentExperiment>();
-        l=experimentService.getExperimentByTeacherNameAndExpTermAndExpName("刘冬梅","2020-1","软件建模");
-        for (StudentExperiment l1:l){
-           System.out.println(l1.getRoomId());
-        }
+//        List<StudentExperiment> l=new ArrayList<StudentExperiment>();
+//        l=experimentService.getExperimentByTeacherNameAndExpTermAndExpName("刘冬梅","2020-1","软件建模");
+//        for (StudentExperiment l1:l){
+//           System.out.println(l1.getRoomId());
+//        }
+        LoginService loginService=new LoginService();
+        loginService.changePassword("1001","1001","1002");
 
     }
 
