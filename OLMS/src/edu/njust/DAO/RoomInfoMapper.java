@@ -13,9 +13,9 @@ public interface RoomInfoMapper {
     // 可以参考这个 delete from RoomInfo where date &lt; #{param1}
 
     int modifyFreeSeatCount(RoomInfo roomInfo);
-
     int selectFreeSeatCount(String roomId,String date,int time);
     List<String> selectRoomIds();//所有机房号的集合
     List<RoomInfo> selectRoom(String date);
+    RoomInfo selectRoomInfo(String roomId,String date,int time);
 
 }

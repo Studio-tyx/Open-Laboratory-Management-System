@@ -10,4 +10,5 @@ public interface UserMapper {
     String selectPasswordById(String userId);
     //通过userId查询user对象
     User selectUserById(String userId);
+    boolean changePassword(String newPassWord,String userId);
 }

@@ -38,7 +38,7 @@ public class ReportServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //super.doGet(req, resp);
+        doPost(req,resp);
     }
 
     /**
@@ -61,9 +61,9 @@ public class ReportServlet extends HttpServlet {
         User user=new User();
         user= (User) request.getSession().getAttribute("user");
         String stuId=user.getUserId();
-        String expName= (String) request.getSession().getAttribute("expName");
-        String expTeacherName= (String) request.getSession().getAttribute("expTeacherName");
-        String expTerm= (String) request.getSession().getAttribute("expTerm");
+        String expName= request.getParameter("expName");
+        String expTeacherName= request.getParameter("expTeacherName");
+        String expTerm= request.getParameter("expTerm");
         StudentExperiment studentExperiment=new StudentExperiment();
         studentExperiment=experimentService.getStudentExperiment(stuId,expName,expTeacherName,expTerm);
         //1、判断表单是否支持文件上传。 即：  enctype = "multipart/form-data"
@@ -92,13 +92,19 @@ public class ReportServlet extends HttpServlet {
                     //上传表单项
                     //获取文件名
                     String fileName = item.getName();
+                    String newFileName=user.getUserId()+fileName;
+                    fileName=newFileName;
                     //获取输入流
 
                     InputStream is = item.getInputStream();
                     //创建输出流
                     String path = this.getServletContext().getRealPath("/Report");
                     System.out.println(path);
-                    String relativePath="Report "+fileName;
+                    String relativePath="Report/"+fileName;
+                    request.getSession().setAttribute("info","上传成功");
+                    studentExperiment.setReportAddr(relativePath);
+                    ReportService reportService = new ReportService();
+                    reportService.addReport(studentExperiment);
                     System.out.println(relativePath);
                     //获得文件在服务器上上传的路径
                     File file = new File(path,fileName);
@@ -135,7 +141,7 @@ public class ReportServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        request.getRequestDispatcher("/JSP/s/studentExp.jsp").forward(request,response);
     }
 
 }

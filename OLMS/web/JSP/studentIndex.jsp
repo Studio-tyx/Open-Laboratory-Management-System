@@ -37,25 +37,22 @@
 描述：导航栏
 -->
 <div class="topnav">
-    <nav style="margin-left: 60px;">
+    <nav>
         <ul id="starlist">
-
+            <li>
+                <a href="JSP/chooseExp.jsp">实验报名</a>
+            </li>
+            <li>
+                <a href="JSP/chooseLab.jsp">实验室预约</a>
+            </li>
             <li>
                 <a href="JSP/submitReport.jsp">上传实验报告</a>
             </li>
-            <li>
-                <a href="JSP/submitReport.jsp">预约实验室</a>
-            </li>
-            <li>
-                <a href="#">申请审核</a>
-            </li>
-            <li>
-                <a href="#">报告下载</a>
             <li class="menu">
                 <a href="#">帮助</a>
                 <ul class="sub" style="margin-left: 0;">
                     <li>
-                        <a href="#">规章制度</a>
+                        <a href="JSP/rules.jsp">规章制度</a>
                     </li>
                     <li>
                         <a href="#">使用说明</a>

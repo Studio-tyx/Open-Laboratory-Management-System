@@ -14,5 +14,4 @@ public interface ExpInfoMapper {
     List<ExperimentInfo> selectExperimentInfoByTeacherName(String expTeacher);
     List<ExperimentInfo> selectExperimentByTeacherNameAndExpTerm(String expTeacher,String expTerm);
     List<String> selectExperimentTermByTeacherName(String expTeacherName);
-
 }

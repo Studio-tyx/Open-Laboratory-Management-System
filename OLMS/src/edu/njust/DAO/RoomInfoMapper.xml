@@ -22,5 +22,8 @@
 	<select id="selectRoom" resultType="roomInfo">
 		select * from roomInfo where date =#{date}
 	</select>
+	<select id="selectRoomInfo" resultType="roomInfo">
+		select * from roomInfo where roomId=#{arg0} and date=#{arg1} and time=#{arg2}
+	</select>
 
 </mapper>

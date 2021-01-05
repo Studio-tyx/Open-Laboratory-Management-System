@@ -135,7 +135,7 @@
                             <td><%=e.getExpTerm()%><%request.getSession().setAttribute("expTerm",e.getExpTerm());%></td>
 
                             <td>
-                                <form enctype="multipart/form-data" method="post" action="servlet/ReportServlet">
+                                <form enctype="multipart/form-data" method="post" action="servlet/ReportServlet?expName=<%=e.getExpName()%>&expTeacherName=<%=e.getExpTeacherName()%>&expTerm=<%=e.getExpTerm()%>">
                                     <input type="file" name="file1"><br>
                                     <button type="submit">提交</button>
                                 </form>

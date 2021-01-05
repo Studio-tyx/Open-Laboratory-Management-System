@@ -57,13 +57,22 @@ public class ExperimentService {
         SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
         SqlSession session=factory.openSession(true);
         StudentExpMapper studentExpMapper=session.getMapper(StudentExpMapper.class);
-        int line=studentExpMapper.insertStudentExp(studentExperiment);
-        session.close();
-        if(line==1){
-            return true;
-        }else{
+        ExpInfoMapper expInfoMapper=session.getMapper(ExpInfoMapper.class);
+        String expName=studentExperiment.getExpName();
+        String expTeacherName=studentExperiment.getExpTeacherName();
+        String expTerm=studentExperiment.getExpTerm();
+        ExperimentInfo experimentInfo=expInfoMapper.selectExperimentInfo(expName,expTeacherName,expTerm);
+        int nowCount=experimentInfo.getCurrentStudentCount();
+        int maxCount=experimentInfo.getExpMaxStudentCount();
+        if(nowCount>=maxCount){
+            session.close();
             return false;
         }
+        experimentInfo.setCurrentStudentCount(nowCount+1);
+        expInfoMapper.modifyExperimentInfo(experimentInfo);
+        int line=studentExpMapper.insertStudentExp(studentExperiment);
+        session.close();
+        return true;
     }
 
 
@@ -75,11 +84,7 @@ public class ExperimentService {
         studentExperiment.setHasAdmitted(true);
         StudentExpMapper studentExpMapper=session.getMapper(StudentExpMapper.class);
         studentExpMapper.modifyStudentExp(studentExperiment);
-        ExpInfoMapper expInfoMapper=session.getMapper(ExpInfoMapper.class);
-        ExperimentInfo experimentInfo=expInfoMapper.selectExperimentInfo(studentExperiment.getExpName(),
-                studentExperiment.getExpTeacherName(),studentExperiment.getExpTerm());
-        experimentInfo.setCurrentStudentCount(experimentInfo.getCurrentStudentCount()+1);
-        expInfoMapper.modifyExperimentInfo(experimentInfo);
+
         session.close();
         return true;
     }
@@ -153,5 +158,37 @@ public class ExperimentService {
         List<StudentExperiment> results=studentExpMapper.selectExperimentByTeacherNameAndExpTermAndExpName(expTeacherName,expTerm,expName);
         session.close();
         return results;
+    }
+
+    //删除一次实验报名
+    public boolean deleteStudentExperiment(StudentExperiment studentExperiment){
+        SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
+        SqlSession session=factory.openSession(true);
+        StudentExpMapper studentExpMapper=session.getMapper(StudentExpMapper.class);
+        ExpInfoMapper expInfoMapper=session.getMapper(ExpInfoMapper.class);
+        String expName=studentExperiment.getExpName();
+        String expTeacherName=studentExperiment.getExpTeacherName();
+        String expTerm=studentExperiment.getExpTerm();
+        ExperimentInfo experimentInfo=expInfoMapper.selectExperimentInfo(expName,expTeacherName,expTerm);
+        int nowCount=experimentInfo.getCurrentStudentCount();
+        experimentInfo.setCurrentStudentCount(nowCount-1);
+        expInfoMapper.modifyExperimentInfo(experimentInfo);
+        int line=studentExpMapper.deleteStudentExp(studentExperiment);
+        session.close();
+        if(line==1){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public ExperimentInfo selectExpInfo(String expName,String expTeacherName,String expTerm){
+        SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
+        SqlSession session=factory.openSession(true);
+        ExpInfoMapper expInfoMapper=session.getMapper(ExpInfoMapper.class);
+        ExperimentInfo experimentInfo=new ExperimentInfo();
+        experimentInfo=expInfoMapper.selectExperimentInfo(expName,expTeacherName,expTerm);
+        session.close();
+        return experimentInfo;
     }
 }

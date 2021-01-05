@@ -35,7 +35,18 @@
         <servlet-name>StudentExpServlet</servlet-name>
         <servlet-class>edu.njust.servlet.StudentExpServlet</servlet-class>
     </servlet>
-
+    <servlet>
+        <description>This is the description of my J2EE component</description>
+        <display-name>This is the display name of my J2EE component</display-name>
+        <servlet-name>StudentSignUpServlet</servlet-name>
+        <servlet-class>edu.njust.servlet.StudentSignUpServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <description>This is the description of my J2EE component</description>
+        <display-name>This is the display name of my J2EE component</display-name>
+        <servlet-name>ChangeServlet</servlet-name>
+        <servlet-class>edu.njust.servlet.ChangeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/servlet/LoginServlet</url-pattern>
@@ -53,12 +64,19 @@
         <url-pattern>/servlet/StudentExpServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-
         <servlet-name>ExpTeacherServlet</servlet-name>
         <url-pattern>/servlet/ExpTeacherServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StudentSignUpServlet</servlet-name>
+        <url-pattern>/servlet/StudentSignUpServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangeServlet</servlet-name>
+        <url-pattern>/servlet/ChangeServlet</url-pattern>
+    </servlet-mapping>
     <welcome-file-list>
-        <welcome-file>JSP/login.jsp</welcome-file>
+        <welcome-file>JSP/c/login.jsp</welcome-file>
     </welcome-file-list>
 
 </web-app>

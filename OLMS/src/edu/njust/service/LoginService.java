@@ -53,4 +53,19 @@ public class LoginService {
         session.close();
         return user;
     }
+    public Boolean changePassword(String newPassWord,String userId,String oldPassword){
+        SqlSessionFactory factory= DBUtils.getSqlSessionFactory();
+        SqlSession session=factory.openSession(true);
+        UserMapper mapper=session.getMapper(UserMapper.class);
+        String rightPassword=getUser(userId).getPassword();
+        if(rightPassword.equals(oldPassword)){
+            //允许修改密码
+            mapper.changePassword(newPassWord,userId);
+            session.close();
+            return true;
+        }else{
+            session.close();
+            return false;
+        }
+    }
 }
